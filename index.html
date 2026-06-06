@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IA Tools Gratis</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0b;
+    --surface:#111114;
+    --surface2:#18181d;
+    --border:#252530;
+    --accent:#e8c547;
+    --text:#f0eff0;
+    --muted:#6e6d7a;
+    --radius:14px
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;padding:20px 16px 60px;overflow-x:hidden}
+  body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 80% 10%,rgba(232,197,71,.06) 0%,transparent 60%),radial-gradient(ellipse 50% 50% at 20% 90%,rgba(99,179,237,.04) 0%,transparent 60%);pointer-events:none;z-index:0}
+  .wrap{position:relative;z-index:1;max-width:680px;margin:0 auto}
+  header{padding:8px 0 32px;border-bottom:1px solid var(--border);margin-bottom:28px}
+  .logo{font-family:'Bebas Neue',sans-serif;font-size:clamp(32px,8vw,52px);letter-spacing:3px;line-height:1}
+  .logo span{color:var(--accent)}
+  .subtitle{font-size:12px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:6px;font-weight:500}
+  .tagbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
+  .tag{background:var(--surface2);border:1px solid var(--border);color:var(--muted);padding:5px 12px;border-radius:100px;font-size:11px;font-weight:500;letter-spacing:.5px;cursor:pointer;transition:all .2s}
+  .tag:hover,.tag.active{border-color:var(--accent);color:var(--accent);background:rgba(232,197,71,.08)}
+  .cat-section{margin-bottom:32px;animation:fadeUp .5s ease both}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+  .cat-header{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+  .cat-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+  .cat-title{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:2px;line-height:1}
+  .cat-count{margin-left:auto;font-size:11px;color:var(--muted);font-weight:500}
+  .platforms{display:flex;flex-direction:column;gap:10px}
+  .platform-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;cursor:pointer;transition:all .22s ease;position:relative;overflow:hidden}
+  .platform-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:2px 0 0 2px;opacity:0;transition:opacity .2s}
+  .platform-card:hover{border-color:#333;background:var(--surface2);transform:translateX(3px)}
+  .platform-card:hover::before,.platform-card.expanded::before{opacity:1}
+  .platform-card.expanded{background:var(--surface2)}
+  .card-top{display:flex;align-items:center;gap:12px}
+  .platform-name{font-weight:700;font-size:15px}
+  .platform-best{font-size:12.5px;color:var(--muted);margin-top:5px;line-height:1.4}
+  .platform-badge{font-size:10px;padding:3px 8px;border-radius:100px;font-weight:600;letter-spacing:.3px;flex-shrink:0}
+  .badge-libre{background:rgba(72,199,142,.15);color:#48c78e}
+  .badge-anuncios{background:rgba(255,107,53,.12);color:#ff6b35}
+  .badge-registro{background:rgba(130,115,255,.12);color:#9b8fff}
+  .badge-freemium{background:rgba(99,179,237,.12);color:#63b3ed}
+  .chevron{color:var(--muted);font-size:14px;transition:transform .2s;flex-shrink:0}
+  .platform-card.expanded .chevron{transform:rotate(90deg);color:var(--accent)}
+  .card-detail{display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--border);animation:slideDown .25s ease}
+  .card-detail.open{display:block}
+  @keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+  .detail-label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:6px}
+  .detail-text{font-size:13px;color:#c0bfc8;line-height:1.6;margin-bottom:12px}
+  .tip-box{background:rgba(232,197,71,.07);border:1px solid rgba(232,197,71,.2);border-radius:10px;padding:10px 13px;font-size:12.5px;color:#d4af30;line-height:1.5;margin-bottom:12px}
+  .tip-box strong{color:var(--accent);font-size:10px;letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:3px}
+  .card-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+  .devices{display:flex;gap:6px;flex-wrap:wrap}
+  .device-tag{font-size:10px;padding:3px 8px;border-radius:6px;background:var(--surface);border:1px solid var(--border);color:var(--muted)}
+  .open-link{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;letter-spacing:.5px;padding:6px 14px;border-radius:8px;text-decoration:none;transition:all .18s ease;flex-shrink:0}
+  .open-link:hover{filter:brightness(1.2);transform:translateY(-1px)}
+  .open-link svg{width:11px;height:11px}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:28px;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+  .stat{text-align:center}
+  .stat-val{font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--accent);letter-spacing:1px}
+  .stat-lab{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:500}
+  .divider{height:1px;background:linear-gradient(to right,transparent,var(--border),transparent);margin:4px 0 28px}
+  .block-section{margin-bottom:20px}
+  .block-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:700;padding:6px 12px;border-radius:8px;display:inline-block;margin-bottom:10px}
+  footer{text-align:center;color:var(--muted);font-size:11px;padding-top:24px;border-top:1px solid var(--border);line-height:1.8}
+  footer em{font-family:'Playfair Display',serif;color:var(--accent);font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo">IA<span>.</span>TOOLS</div>
+    <div class="subtitle">Herramientas de IA gratuitas · Personal · Android · PC · Smart TV</div>
+  </header>
+  <div class="stats" id="stats">
+    <div class="stat"><div class="stat-val" id="stat-tools">0</div><div class="stat-lab">Herramientas</div></div>
+    <div class="stat"><div class="stat-val" id="stat-cats">0</div><div class="stat-lab">Categorías</div></div>
+    <div class="stat"><div class="stat-val">€0</div><div class="stat-lab">Coste total</div></div>
+  </div>
+  <div class="tagbar" id="tagbar"></div>
+  <div id="content"></div>
+  <footer>
+    <em>«La mejor herramienta de IA no es la más cara,<br>sino la que realmente usas.»</em><br><br>
+    Todas las herramientas tienen tier gratuito real · Actualizado 2025
+  </footer>
+</div>
+<script>
+const EXT_ICON=`<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 2H2a1 1 0 00-1 1v7a1 1 0 001 1h7a1 1 0 001-1V7"/><path d="M8 1h3v3"/><line x1="11" y1="1" x2="5.5" y2="6.5"/></svg>`;
+
+const data=[
+  {
+    id:'texto',icon:'💬',title:'Texto, Búsqueda y Productividad',color:'#e8c547',
+    platforms:[
+      {name:'DeepSeek',url:'https://chat.deepseek.com',best:'Chat IA sin registro, ilimitado, con razonamiento avanzado',badge:'libre',badgeText:'Sin registro',devices:['Android','PC'],
+       desc:'Chat de IA de origen chino con acceso al modelo DeepSeek V3 y el modelo de razonamiento R1. Mensajes ilimitados sin crear cuenta, incluyendo subida de archivos y conversaciones largas. En horas pico puede ir lento, pero se recupera. Disponible en web y app Android.',
+       tip:'Usa DeepSeek R1 (el modo "Think") para problemas complejos que requieran razonamiento paso a paso: matemáticas, análisis, depuración de código. Para respuestas rápidas, el modo estándar es más ágil.'},
+      {name:'ChatGPT',url:'https://chatgpt.com',best:'El asistente IA más conocido del mundo, con GPT-4o en tier gratuito',badge:'registro',badgeText:'Registro gratuito',devices:['Android','PC'],
+       desc:'OpenAI ofrece acceso a GPT-4o en el plan gratuito con límite de mensajes diario. Incluye generación de imágenes con DALL·E, búsqueda web, análisis de archivos e intérprete de código Python. La app Android es muy pulida.',
+       tip:'Cuando alcances el límite de GPT-4o, el sistema cambia a GPT-4o mini automáticamente. Para tareas de escritura o resumen, GPT-4o mini es más que suficiente y sin límite.'},
+      {name:'Google Gemini',url:'https://gemini.google.com',best:'Integración total con Google: busca, resume y analiza con tu cuenta Google',badge:'registro',badgeText:'Registro gratuito',devices:['Android','PC','Smart TV'],
+       desc:'Con cuenta Google gratuita accedes a Gemini 2.0 Flash de forma ilimitada. Puede buscar en la web en tiempo real, leer PDFs, analizar imágenes y conectarse con Google Drive, Docs y Gmail. La app Android permite conversación por voz.',
+       tip:'Activa la extensión de Google Workspace para que Gemini pueda leer tus correos, documentos y calendario directamente. Muy útil para resumir hilos largos de Gmail sin copiar y pegar.'},
+      {name:'Perplexity AI',url:'https://www.perplexity.ai',best:'Buscador con IA: respuestas con fuentes verificadas, sin registro',badge:'libre',badgeText:'Sin registro',devices:['Android','PC'],
+       desc:'Combina búsqueda web en tiempo real con resumen por IA. Cada respuesta cita las fuentes originales. Sin registro para uso básico ilimitado. Las búsquedas Pro (con modelos más potentes) tienen límite diario en el tier gratuito.',
+       tip:'Usa el modo "Academic" para búsquedas en artículos científicos y papers. Mucho mejor que Google Scholar para encontrar y entender investigaciones rápidamente.'},
+      {name:'Mistral Le Chat',url:'https://chat.mistral.ai',best:'IA europea de alta calidad, sin registro, modelos rápidos y privados',badge:'libre',badgeText:'Sin registro',devices:['Android','PC'],
+       desc:'Desarrollado en Francia, Le Chat ofrece acceso gratuito a modelos Mistral de última generación sin crear cuenta. Fuerte en idiomas europeos, razonamiento y código. Muy rápido en respuesta. Alternativa europea con buenas políticas de privacidad.',
+       tip:'Le Chat es especialmente bueno en español y francés. Para tareas de escritura o traducción en estos idiomas, a menudo supera a alternativas anglocentristas.'},
+      {name:'NotebookLM',url:'https://notebooklm.google.com',best:'Analiza documentos propios y genera podcasts de audio con IA',badge:'registro',badgeText:'Registro gratuito',devices:['Android','PC'],
+       desc:'Sube PDFs, documentos o URLs y NotebookLM los convierte en una base de conocimiento consultable con IA. La función estrella: genera un podcast de audio de dos voces que debate y explica el contenido. Gratuito con cuenta Google.',
+       tip:'La función "Audio Overview" genera episodios de podcast de 10-15 minutos sobre tus documentos. Ideal para estudiar apuntes, informes o artículos largos escuchando mientras haces otra cosa.'},
+      {name:'ChatPDF',url:'https://www.chatpdf.com',best:'Conversa con cualquier PDF: resume, extrae datos y responde preguntas',badge:'registro',badgeText:'Registro gratuito',devices:['Android','PC'],
+       desc:'Sube un PDF y ChatPDF lo lee completo: puedes preguntarle cualquier cosa sobre el documento, pedir resúmenes por sección, extraer datos o comparar con otros documentos. El plan gratuito permite 3 PDFs al día de hasta 50 páginas.',
+       tip:'Para PDFs largos, empieza pidiendo "Dame un resumen ejecutivo en 5 puntos" antes de preguntas específicas. Orienta mejor las respuestas siguientes.'},
+      {name:'Whisper (OpenAI) vía web',url:'https://whisper.run',best:'Transcripción de audio a texto por IA, sin registro, directamente en el navegador',badge:'libre',badgeText:'Sin registro',devices:['Android','PC'],
+       desc:'Whisper es el modelo de transcripción de OpenAI, reconocido como el mejor en precisión multiidioma. whisper.run ofrece acceso gratuito vía navegador sin crear cuenta: sube un audio o graba en directo y obtén la transcripción en segundos. Soporta español con alta precisión.',
+       tip:'Funciona con grabaciones de voz, reuniones, vídeos (extrae el audio antes con cualquier herramienta) y hasta grabaciones telefónicas con ruido de fondo. Para audios largos, divídelos en fragmentos de 10-15 minutos.'}
+    ]
+  },
+  {
+    id:'imagen',icon:'🎨',title:'Diseño e Imagen IA',color:'#ff6b35',
+    platforms:[
+      {name:'Adobe Firefly',url:'https://firefly.adobe.com',best:'Generación de imágenes IA segura para uso comercial, con créditos mensuales',badge:'registro',badgeText:'Registro gratuito',devices:['Android','PC'],
+       desc:'La IA generativa de Adobe. El plan gratuito incluye 25 créditos mensuales para generar imágenes, rellenar zonas con IA (Generative Fill), cambiar fondos y generar efectos de texto. Todas las imágenes están libres de reclamaciones de copyright al estar entrenado solo con contenido licenciado.',
+       tip:'Los 25 créditos mensuales gratuitos se renuevan cada mes. Úsalos para generación de imágenes complejas y las ediciones más básicas (cambio de fondo, recorte) hazlas con Snapseed o Photopea que son ilimitadas.'},
+      {name:'Microsoft Designer',url:'https://designer.microsoft.com',best:'Diseño gráfico con IA integrada: posts, presentaciones e imágenes',badge:'registro',badgeText:'Registro gratuito',devices:['Android','PC'],
+       desc:'Herramienta de diseño de Microsoft con generación de imágenes por IA (DALL·E 4) y plantillas para redes sociales, posts, invitaciones y presentaciones. Con cuenta Microsoft gratuita tienes créditos diarios generosos. Muy buena integración con Canva-style drag and drop.',
+       tip:'Para generar imágenes con texto integrado (banners, portadas), Microsoft Designer supera claramente a otras herramientas: el texto en las imágenes generadas es legible y bien posicionado.'},
+      {name:'Leonardo.ai',url:'https://leonardo.ai',best:'150 tokens diarios para generar imágenes de alta calidad con múltiples modelos',badge:'registro',badgeText:'Registro gratuito',devices:['Android','PC'],
+       desc:'Plataforma de generación de imágenes con acceso a múltiples modelos especializados (fotorrealismo, anime, concept art, arquitectura). El plan gratuito da 150 tokens diarios que se renuevan cada día, equivalente a unos 20-30 imágenes. Las imágenes son públicas en el tier gratuito.',
+       tip:'Usa el modelo "Phoenix" para fotorrealismo y "Anime XL" para ilustración. El "Image Guidance" permite subir una imagen de referencia para guiar el estilo sin usar tokens extra.'},
+      {name:'Ideogram',url:'https://ideogram.ai',best:'La mejor IA para generar imágenes con texto legible integrado',badge:'registro',badgeText:'Registro gratuito',devices:['PC'],
+       desc:'Especializada en generación de imágenes donde el texto sea parte del diseño: carteles, portadas, logos, tipografía creativa. El plan gratuito incluye 10 imágenes al día en generación lenta. Muy superior a otras herramientas para cualquier uso que requiera texto en la imagen.',
+       tip:'Para generar logos o carteles con texto, pon el texto entre comillas en el prompt: "A poster with the text \'Verano 2025\' in bold neon letters". Ideogram interpreta el texto con mucha más precisión que competidores.'},
+      {name:'Canva',url:'https://www.canva.com',best:'La suite de diseño gráfico más completa con herramientas IA integradas',badge:'registro',badgeText:'Registro gratuito',devices:['Android','PC','Smart TV'],
+       desc:'El tier gratuito de Canva incluye miles de plantillas, editor drag-and-drop, eliminación de fondos básica y algunas herramientas de IA como redimensionado automático y generación de texto. La app Android es muy completa y estable.',
+       tip:'El "Magic Resize" en el tier gratuito permite adaptar un diseño a múltiples formatos (post, story, banner) sin rehacer desde cero. Ahorra mucho tiempo para contenido multicanal.'},
+      {name:'PhotoRoom',url:'https://www.photoroom.com',best:'Eliminación de fondos y edición de producto con IA, app y web',badge:'registro',badgeText:'Registro gratuito',devices:['Android','PC'],
+       desc:'Especializada en fotografía de producto: elimina fondos, cambia escenas, añade sombras realistas y ajusta iluminación con IA. El plan gratuito incluye las funciones principales con marca de agua en exportaciones. Muy rápida y precisa para recorte de personas y objetos.',
+       tip:'La eliminación de fondo de PhotoRoom es de las más precisas del mercado para cabello y bordes complejos. Úsala en Android directamente: toma la foto y exporta en segundos.'},
+      {name:'Snapseed',url:'https://apps.apple.com/es/app/snapseed/id439438619',best:'Editor de fotos profesional completo, sin registro, sin límites, sin anuncios',badge:'libre',badgeText:'Sin registro',devices:['Android'],
+       desc:'El editor de fotos de Google para móvil. Completamente gratuito y sin anuncios. Herramientas profesionales: máscaras selectivas, HDR, eliminación de objetos, ajuste de perspectiva y más de 20 filtros no destructivos. No tiene IA generativa pero es insuperable para edición fotográfica.',
+       tip:'Usa el pincel selectivo de Snapseed para ajustar exposición, contraste o color solo en una zona de la foto sin afectar el resto. Mucho más preciso que los filtros globales de otras apps.'},
+      {name:'Remini',url:'https://remini.ai',best:'Mejora y restaura fotos antiguas o borrosas con IA',badge:'registro',badgeText:'Registro gratuito',devices:['Android','PC'],
+       desc:'Especializada en mejora de retratos y restauración de fotos antiguas o de baja resolución. La IA reconstruye detalles faciales perdidos con notable realismo. El plan gratuito permite 5 mejoras al día. Muy útil para digitalizar fotos de carrete o mejorar capturas nocturnas.',
+       tip:'Para fotos muy antiguas y dañadas, haz primero una corrección de color básica en Snapseed antes de pasar a Remini. El resultado final es notablemente mejor que usando solo Remini directamente.'},
+      {name:'Photopea',url:'https://www.photopea.com',best:'Photoshop en el navegador, gratuito, sin registro, compatible con PSD',badge:'anuncios',badgeText:'Con anuncios',devices:['Android','PC'],
+       desc:'Editor de imágenes avanzado que funciona directamente en el navegador. Compatible con archivos PSD de Photoshop, AI de Illustrator y XCF de GIMP. Capas, máscaras, filtros, ajustes avanzados. Sin instalación, sin cuenta. Con anuncios que se pueden ignorar fácilmente.',
+       tip:'Photopea guarda el trabajo en el navegador entre sesiones. Para proyectos largos, exporta regularmente a PSD: puedes abrirlos en Photoshop real si cambias de dispositivo.'},
+      {name:'Remove.bg',url:'https://www.remove.bg',best:'Eliminación de fondo en un clic, sin registro, resultado instantáneo',badge:'libre',badgeText:'Sin registro',devices:['Android','PC'],
+       desc:'La referencia en eliminación de fondos. Sin registro, sube una imagen y en segundos tienes el recorte. La versión gratuita entrega la imagen a resolución media (suficiente para web y redes sociales). Muy precisa con personas, animales y objetos con bordes complejos.',
+       tip:'Para obtener la imagen a máxima resolución gratis, usa la extensión de Chrome de Remove.bg: en algunos navegadores permite descargar la versión HD directamente.'}
+    ]
+  },
+  {
+    id:'video',icon:'🎬',title:'Edición de Vídeo',color:'#63b3ed',
+    platforms:[
+      {name:'CapCut',url:'https://www.capcut.com',best:'Editor de vídeo con IA más completo del mercado en tier gratuito',badge:'registro',badgeText:'Registro gratuito',devices:['Android','PC'],
+       desc:'Suite de edición de vídeo con IA generosa en gratuito: subtítulos automáticos en español, eliminación de fondo, sincronización de beats con música, avatares IA, efectos y transiciones. La app Android es la más usada para contenido de redes sociales. El editor web tiene las mismas funciones.',
+       tip:'Los subtítulos automáticos de CapCut en español tienen precisión muy alta. Genera subtítulos, edítalos si hay errores y exporta el vídeo con ellos incrustados o como archivo SRT separado.'},
+      {name:'Opus Clip',url:'https://www.opus.pro',best:'Convierte vídeos largos en clips cortos virales automáticamente con IA',badge:'registro',badgeText:'Registro gratuito',devices:['PC'],
+       desc:'Analiza vídeos largos (conferencias, podcasts, tutoriales) y extrae automáticamente los momentos más interesantes como clips cortos para TikTok, Reels o Shorts. El plan gratuito incluye 60 minutos de vídeo procesado al mes. Añade subtítulos animados automáticamente.',
+       tip:'Sube un podcast o conferencia de 1 hora y Opus Clip genera 10-15 clips cortos puntuados por potencial viral. Revisa los mejores y publícalos: proceso manual de horas reducido a minutos.'},
+      {name:'Clipchamp',url:'https://clipchamp.com',best:'Editor de vídeo de Microsoft: 1080p sin marca de agua, con IA básica integrada',badge:'registro',badgeText:'Registro gratuito',devices:['PC'],
+       desc:'Editor de vídeo web de Microsoft incluido con cuentas gratuitas. Exporta en 1080p sin marca de agua. Tiene IA para transcripción, subtítulos automáticos y un generador básico de vídeos con texto a voz. Buena integración con OneDrive para guardar proyectos.',
+       tip:'Clipchamp es la opción más limpia si necesitas editar un vídeo en PC sin instalar nada y exportar en 1080p sin watermark. Para efectos avanzados combínalo con CapCut.'},
+      {name:'Pika',url:'https://pika.art',best:'Generación de vídeos cortos con IA a partir de texto o imagen',badge:'registro',badgeText:'Registro gratuito',devices:['PC'],
+       desc:'Plataforma de generación de vídeo por IA. El plan gratuito incluye créditos diarios renovables para generar clips cortos (3-5 segundos) a partir de prompts de texto o imágenes. Muy útil para animaciones, efectos cinematográficos y transiciones creativas.',
+       tip:'Para mejores resultados, describe la cámara además del contenido: "slow zoom in, cinematic lighting, shallow depth of field". El control de movimiento de cámara es donde Pika destaca frente a competidores.'}
+    ]
+  },
+  {
+    id:'audio',icon:'🎵',title:'Música y Audio',color:'#48c78e',
+    blocks:[
+      {
+        label:'Composición y generación musical',
+        platforms:[
+          {name:'Suno AI',url:'https://suno.com',best:'Genera canciones completas con letra y voz desde un prompt de texto',badge:'registro',badgeText:'Registro gratuito',devices:['Android','PC'],
+           desc:'Genera canciones completas con voz, instrumentación y letra a partir de una descripción de texto. El plan gratuito incluye 50 créditos diarios renovables (≈10 canciones al día). Las canciones del tier gratuito son solo para uso personal, sin derechos comerciales.',
+           tip:'Para mejores resultados, especifica género, tempo, mood e instrumentos en el prompt: "Upbeat bossa nova, acoustic guitar, female vocals, optimistic summer feeling". Cuanto más específico, más controlado el resultado.'},
+          {name:'Udio',url:'https://udio.com',best:'Generación musical con calidad vocal muy realista, especialmente en pop y RnB',badge:'registro',badgeText:'Registro gratuito',devices:['PC'],
+           desc:'Alternativa a Suno con énfasis en realismo vocal. El plan gratuito da 10 créditos diarios más 100 créditos mensuales de reserva (≈3 canciones al día). Fundado por ex-investigadores de Google DeepMind con inversión de Andreessen Horowitz. Fuerte en géneros con voz principal.',
+           tip:'Udio permite editar la canción por bloques: genera intro, verso, estribillo y puente por separado y luego los combina. Esto da mucho más control sobre la estructura final que generar todo de golpe.'},
+          {name:'BandLab',url:'https://www.bandlab.com',best:'DAW completo en web y móvil, gratuito sin límites, con herramientas IA',badge:'registro',badgeText:'Registro gratuito',devices:['Android','PC'],
+           desc:'DAW (Digital Audio Workstation) completo en el navegador y en Android. Incluye grabación multipista, librería de samples, sintetizadores, efectos y masterización con IA. Todo gratuito sin límite de proyectos. También tiene BandLab Mastering integrado para masterizar pistas.',
+           tip:'BandLab tiene una librería de samples y loops enorme y gratuita. Empieza por los "Featured Samples" para encontrar instrumentales de calidad profesional y construye encima en minutos.'},
+          {name:'LMMS',url:'https://lmms.io',best:'DAW open source completo para PC, producción musical profesional sin coste',badge:'libre',badgeText:'Sin registro',devices:['PC'],
+           desc:'DAW de código abierto equivalente a FL Studio o GarageBand. Incluye sintetizadores virtuales, secuenciador de beats, piano roll, efectos y soporte VST. Sin límites, sin suscripción, sin nube requerida. Curva de aprendizaje media pero muy potente para producción musical completa.',
+           tip:'LMMS tiene una comunidad muy activa con cientos de preset packs y proyectos de ejemplo gratuitos. Descarga alguno para entender el flujo de trabajo antes de crear desde cero.'}
+        ]
+      },
+      {
+        label:'Producción y mejora de audio',
+        platforms:[
+          {name:'Adobe Podcast Enhance',url:'https://podcast.adobe.com/enhance',best:'Mejora automática de calidad de voz grabada, sin registro, ilimitado',badge:'libre',badgeText:'Sin registro',devices:['PC'],
+           desc:'Herramienta gratuita de Adobe que elimina ruido de fondo, reverb y mejora la calidad de grabaciones de voz en segundos. Sin registro, sin límite de archivos. Sube un audio grabado en cualquier micrófono y suena como grabado en estudio profesional.',
+           tip:'Funciona incluso con grabaciones de voz en WhatsApp o notas de voz de móvil. El resultado es especialmente impresionante con ruido de fondo constante como ventiladores o tráfico.'},
+          {name:'Audacity + OpenVINO',url:'https://www.audacityteam.org',best:'Editor de audio profesional open source con separación de stems por IA',badge:'libre',badgeText:'Sin registro',devices:['PC'],
+           desc:'Audacity es el editor de audio de referencia open source. Con el plugin OpenVINO AI (gratuito, instalación adicional) añade separación de voz e instrumentos por IA, transcripción y cancelación de ruido. Sin límites, completamente offline.',
+           tip:'El plugin OpenVINO se descarga desde GitHub (repositorio de Intel). Una vez instalado, aparece en el menú Efectos de Audacity. La separación de stems funciona sin conexión a internet, lo que es una ventaja única respecto a servicios web.'}
+        ]
+      },
+      {
+        label:'Separación de voz e instrumentos',
+        platforms:[
+          {name:'Vocalremover.org',url:'https://vocalremover.org',best:'Separación vocal/instrumental sin registro, ilimitada, directo en el navegador',badge:'libre',badgeText:'Sin registro',devices:['Android','PC'],
+           desc:'Separador de voz e instrumental online, sin registro y sin límite de archivos. Sube cualquier canción y descarga la pista vocal y la pista instrumental por separado. También incluye BPM detector, pitch changer y karaoke player. Interfaz sencilla y resultados rápidos.',
+           tip:'Para la mejor calidad de separación, sube el archivo en WAV o FLAC en lugar de MP3 comprimido. El algoritmo trabaja con más información y el resultado tiene menos artefactos.'},
+          {name:'Moises.ai',url:'https://moises.ai',best:'Separación en múltiples stems, detección de acordes y práctica musical',badge:'registro',badgeText:'Registro gratuito',devices:['Android','PC'],
+           desc:'App especializada para músicos: separa voz, batería, bajo, guitarra y otros en stems independientes. El plan gratuito permite 5 canciones al mes con separación de 2 stems (voz + instrumental). También detecta acordes y permite cambiar tempo/tono sin alterar la calidad.',
+           tip:'Usa Moises para practicar: sube la canción que estás aprendiendo, baja el volumen del instrumento que tú tocas y sube el resto. Practicas en contexto real con la banda.'},
+          {name:'Splitter.ai',url:'https://www.splitter.ai',best:'Separación de stems gratuita, sin registro, con descarga directa',badge:'libre',badgeText:'Sin registro',devices:['PC'],
+           desc:'Servicio web de separación de audio sin registro. Separa voz, acompañamiento, bajo, batería y melodía en archivos independientes. El número de splits gratuitos es limitado por sesión pero sin necesidad de cuenta. Buena calidad general para la mayoría de géneros.',
+           tip:'Para géneros con producción electrónica o EDM la separación es menos limpia que en música acústica. Para estos casos, Vocalremover.org con la opción básica voz/instrumental da mejores resultados prácticos.'},
+          {name:'Lalal.ai',url:'https://www.lalal.ai',best:'10 minutos gratuitos de separación de alta calidad, sin registro',badge:'libre',badgeText:'Sin registro',devices:['PC'],
+           desc:'Servicio profesional de separación de audio con tier gratuito de 10 minutos de procesamiento sin registro. Separa en hasta 10 stems incluyendo piano, sintetizadores y bajo eléctrico por separado. La calidad es notablemente superior a alternativas gratuitas, especialmente para música densa.',
+           tip:'Los 10 minutos gratuitos se cuentan por duración de audio procesado, no por número de archivos. Para aprovecharlos al máximo, recorta el fragmento exacto que necesitas antes de subir.'},
+          {name:'Media.io',url:'https://www.media.io',best:'Suite de herramientas de audio y vídeo con separación vocal incluida',badge:'registro',badgeText:'Registro gratuito',devices:['PC'],
+           desc:'Plataforma todo-en-uno que incluye separación vocal, conversión de formatos, mejora de audio, eliminación de ruido y edición básica de vídeo. El plan gratuito tiene límite por conversión pero cubre casos de uso ocasionales. Interfaz muy accesible para usuarios no técnicos.',
+           tip:'Media.io es útil cuando necesitas varias operaciones sobre el mismo archivo: convierte formato, elimina ruido y separa vocal en un flujo de trabajo sin cambiar de herramienta.'}
+        ]
+      }
+    ]
+  }
+];
+
+function getBadgeClass(b){return{libre:'badge-libre',anuncios:'badge-anuncios',registro:'badge-registro',freemium:'badge-freemium'}[b]||'badge-libre'}
+
+function countTools(){
+  let n=0;
+  data.forEach(cat=>{
+    if(cat.blocks) cat.blocks.forEach(b=>n+=b.platforms.length);
+    else n+=cat.platforms.length;
+  });
+  return n;
+}
+
+function renderPlatforms(platforms,color){
+  return platforms.map(p=>`
+    <div class="platform-card" onclick="toggle(this)">
+      <style>.platform-card:hover::before,.platform-card.expanded::before{background:${color}}</style>
+      <div class="card-top">
+        <div style="flex:1;min-width:0">
+          <div class="platform-name">${p.name}</div>
+          <div class="platform-best">${p.best}</div>
+        </div>
+        <span class="platform-badge ${getBadgeClass(p.badge)}">${p.badgeText}</span>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail">
+        <div class="detail-label">Qué ofrece</div>
+        <div class="detail-text">${p.desc}</div>
+        <div class="tip-box"><strong>⚡ Truco pro</strong>${p.tip}</div>
+        <div class="card-footer">
+          <div class="devices">${p.devices.map(d=>`<span class="device-tag">${d}</span>`).join('')}</div>
+          <a class="open-link"
+             href="${p.url}"
+             target="_blank"
+             rel="noopener noreferrer"
+             onclick="event.stopPropagation()"
+             style="background:${color}18;color:${color};border:1px solid ${color}55">
+            Abrir ${EXT_ICON}
+          </a>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderAll(cats){
+  const c=document.getElementById('content');
+  c.innerHTML='';
+  cats.forEach((cat,ci)=>{
+    const s=document.createElement('div');
+    s.className='cat-section';
+    s.dataset.cat=cat.id;
+    s.style.animationDelay=(ci*.07)+'s';
+
+    const totalTools=cat.blocks
+      ?cat.blocks.reduce((sum,b)=>sum+b.platforms.length,0)
+      :cat.platforms.length;
+
+    let innerHtml='';
+    if(cat.blocks){
+      innerHtml=cat.blocks.map(block=>`
+        <div class="block-section">
+          <div class="block-title" style="background:${cat.color}15;color:${cat.color}">${block.label}</div>
+          <div class="platforms">${renderPlatforms(block.platforms,cat.color)}</div>
+        </div>
+      `).join('');
+    } else {
+      innerHtml=`<div class="platforms">${renderPlatforms(cat.platforms,cat.color)}</div>`;
+    }
+
+    s.innerHTML=`
+      <div class="cat-header">
+        <div class="cat-icon" style="background:${cat.color}18;color:${cat.color}">${cat.icon}</div>
+        <div class="cat-title" style="color:${cat.color}">${cat.title}</div>
+        <div class="cat-count">${totalTools} herramientas</div>
+      </div>
+      ${innerHtml}
+      ${ci<cats.length-1?'<div class="divider" style="margin-top:28px"></div>':''}
+    `;
+    c.appendChild(s);
+  });
+}
+
+function buildTagbar(){
+  const tb=document.getElementById('tagbar');
+  tb.innerHTML=`<div class="tag active" onclick="filterAll(this)">Todo</div>`;
+  data.forEach(cat=>{
+    const t=document.createElement('div');
+    t.className='tag';
+    t.textContent=`${cat.icon} ${cat.title}`;
+    t.onclick=function(){filterCat(this,cat.id)};
+    tb.appendChild(t);
+  });
+}
+
+function toggle(card){
+  const d=card.querySelector('.card-detail');
+  const open=d.classList.contains('open');
+  document.querySelectorAll('.card-detail.open').forEach(x=>{x.classList.remove('open');x.closest('.platform-card').classList.remove('expanded')});
+  if(!open){d.classList.add('open');card.classList.add('expanded');setTimeout(()=>card.scrollIntoView({behavior:'smooth',block:'nearest'}),100)}
+}
+function filterAll(el){
+  document.querySelectorAll('.tag').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  renderAll(data);
+}
+function filterCat(el,id){
+  document.querySelectorAll('.tag').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  renderAll(data.filter(c=>c.id===id));
+}
+
+// Init
+document.getElementById('stat-tools').textContent=countTools();
+document.getElementById('stat-cats').textContent=data.length;
+buildTagbar();
+renderAll(data);
+</script>
+</body>
+</html>
